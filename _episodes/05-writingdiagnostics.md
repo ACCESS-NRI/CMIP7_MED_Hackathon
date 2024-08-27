@@ -42,7 +42,7 @@ Let's get started!
 
 A clone of the ESMValTool repository should be available in your user folder in the `nf33`
 `scratch` folder (`/scratch/nf33/$USER/ESMValTool`). If not, please make sure to run the
-`check_hackathon` command after loading the `esmvaltool` module.
+`check_hackathon` command after loading the `esmvaltool` module, check for any errors.
 
 The folder ``ESMValTool`` contains the source code of the tool. We can find the
 recipe ``recipe_python.yml`` and the python script ``diagnostic.py`` in these
@@ -212,6 +212,8 @@ There are four main sections in the script:
 > ```
 > esmvaltool recipes get examples/recipe_python.yml
 > ```
+> Use the file you edited that works from the completion of the lesson.
+>
 > Copy the file `diagnostic.py` to your working folder
 > to keep the ones in the repo as templates unaltered while you can more easily 
 > find the files you are editing. Edit your recipe to point to your copy of 

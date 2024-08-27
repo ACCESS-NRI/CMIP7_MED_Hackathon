@@ -50,9 +50,6 @@ recipe you want you can use the `get_recipe()` function.
 > all_recipes = esmvaltool.get_all_recipes()
 > all_recipes
 > ```
-> ```python
-> recipes.find('python') ## error
-> ```
 {: .solution}
 
 > ## Get a recipe
@@ -75,6 +72,7 @@ recipe you want you can use the `get_recipe()` function.
 > > # 'Recipe python'
 > > ```
 > {: .solution}
+> 
 {: .challenge}
 
 > ## Pro tip: remember the command line?
@@ -92,7 +90,8 @@ The tool can automatically download the climate data files required to run a rec
 You can check your download directory and output directory where your recipe runs will be saved.
 This `CFG` object is from the `config` module in the ESMValCore API, for more details see [here][api-config].
 
-> Check and ensure download directory exists
+> Check and ensure download directory exists. This would be required when downloading missing 
+> datasets from ESGF nodes.
 > > ## Solution
 > > ```python
 > > # call CFG object like this
@@ -106,8 +105,8 @@ This `CFG` object is from the `config` module in the ESMValCore API, for more de
 > > Check this location is your `\scratch\nf33\$USERNAME\esmvaltool_outputs\`
 > > ```python
 > > print(CFG['output_dir'])
-> > # edit if required
-> > # esmvaltool.CFG['output_dir'] = '/scratch/nf33/$USERNAME/esmvaltool_output'
+> > # edit dir
+> > esmvaltool.CFG['output_dir'] = '/scratch/nf33/$USERNAME/esmvaltool_outputs'
 > > ```
 > {: .solution}
 {: .challenge}

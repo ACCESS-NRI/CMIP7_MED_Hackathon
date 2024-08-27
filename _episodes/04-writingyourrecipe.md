@@ -40,9 +40,13 @@ ESMValTool. We have prepared a small Python script that takes a NetCDF file with
 timeseries data, and visualizes it in the form of our desired warming stripes
 figure.
 
+As part of your [setup][lesson-setup] when you ran `check_hackathon` you will have a clone of 
+[this repo](https://github.com/ACCESS-NRI/CMIP7-Hackathon/tree/main/exercises)
+in your scratch training space.
+
 The diagnostic script that we will use is called `warming_stripes.py` and
-can be found in your main Hackathon folder 
-`/scratch/nf33/$USER/CMIP7-Hackathon/exercises/Exercise2_files`.
+can be found in your cloned Hackathon folder: 
+`/scratch/nf33/$USER/CMIP7-Hackathon/exercises/WritingYourOwnRecipe`.
 
 You may also have a look at the contents, but it is not necessary to do so for this lesson.
 
@@ -61,7 +65,7 @@ preprocessing, and then runs this Python script.
 > >
 > > - A preprocessing task that converts the gridded temperature data to a timeseries
 > >   of global temperature anomalies
-> > - A diagnostic tasks that calls our Python script, taking our preprocessed
+> > - A diagnostic task that calls our Python script, taking our preprocessed
 > >   timeseries data as input.
 > >
 > {: .solution}
@@ -106,24 +110,23 @@ This is the first place to look for help if you get stuck.
 > Notice that `yaml` always requires **two spaces** indentation between the different
 > levels. Save the file in VS Code with `ctrl + s`.
 > 
-> We will try to run the recipe after every modification we make, to see if it (still) works!
-> In the terminal, load the module to use ESMValTool on Gadi. If you don't have a terminal 
-> open, the shortcut in VS Code is `` Ctrl + ` ``. Add the full path (eg. */scratch/nf33/$USER*)
-> to your `recipe_warming_stripes.yml` in this when you run your recipe or `cd` to the directory.
 >
-> You can run with esmvaltool directly to see the output in your terminal with 
-> output directory set `--output_dir=/scratch/nf33/$USER/esmvaltool_outputs` :
->
-> ```bash
-> module use /g/data/xp65/public/modules
-> module load esmvaltool
->
-> esmvaltool run --output_dir=/scratch/nf33/$USER/esmvaltool_outputs <path>/recipe_warming_stripes.yml
-> ```
-> 
+> > ## Reminder: how to run recipe
+> > In the terminal, load the module to use ESMValTool on Gadi. If you don't have a terminal 
+> > open, the shortcut in VS Code is `` Ctrl + ` ``. Add the full path (eg. */scratch/nf33/$USER*)
+> > to your `recipe_warming_stripes.yml` in this when you run your recipe or `cd` to the directory.
+> > Also ensure that you are on the project nf33.
+> > ```bash
+> > switchproj nf33
+> > module use /g/data/xp65/public/modules
+> > module load esmvaltool
+> > 
+> > esmvaltool-workflow run --output_dir=/scratch/nf33/$USER/esmvaltool_outputs <path>/recipe_warming_stripes.yml
+> > ```
+> {: .solution}
 {: .challenge}
 
-In this case, it gives an error. Below you see the last few lines of the error message.
+If you try to run this, it would give an error. Below you see the last few lines of the error message.
 ```
 ...
 yamale.yamale_error.YamaleError: 
@@ -194,7 +197,8 @@ ValueError: Tag 'doe_john' does not exist in section
 > The error message above points to a file named
 > [config-references.yml][config-references]
 > This is where ESMValTool stores all its citation information. To add yourself
-> as an author, add your name in the form `lastname_firstname` in alphabetical
+> as an author, you will need to use and run ESMValTool in developer mode, then 
+> add your name in the form `lastname_firstname` in alphabetical
 > order following the existing entries, under the `# Development team` section.
 > The file used in this Gadi module doesn't have editing permissions 
 > so use an existing author. See the
@@ -204,7 +208,7 @@ ValueError: Tag 'doe_john' does not exist in section
 
 For now, let's just use one of the existing references. Change the author field to
 `righi_mattia`, who cannot receive enough credit for all the effort he put into
-ESMValTool. If you now run the recipe again, you should see the final message
+ESMValTool. If you now run the recipe, you would see the final message
 
 ```
 ERROR   No tasks to run!
@@ -224,7 +228,7 @@ Let's add a datasets section.
 > and look at the explanation of the dataset entry
 > in the [ESMValTool
 > documentation][recipe-section-datasets]{:target="_blank"}.
-> For both the datasets, write down the following properties:
+> For two datasets, write down the following properties:
 >
 > - project
 > - variable (short name)
@@ -237,6 +241,7 @@ Let's add a datasets section.
 > - end year
 >
 > > ## Answers
+> > Here we have chosen a CMIP6 and CMIP5 ACCESS dataset.
 > >
 > > | **key** | **file 1** | **file 2** |
 > > | project | CMIP6 | CMIP5 |
@@ -292,7 +297,8 @@ in ESMValTool.
 > ## Pro-tip: Automatically populating a recipe with all available datasets
 >
 > You can select all available models for processing using 
-> `glob` patterns or wildcards.  An example `datasets` section that uses all 
+> `glob` patterns or wildcards.  Seen in [Running your first recipe]({{ page.root }}{% link _episodes/03-supported-data.md %})
+> An example `datasets` section that uses all 
 > available CMIP6 models and ensemble members for the `historical` experiment
 > is available [here] [include-all-datasets]{:target="_blank"}.
 > Note that you will have to set the `search_esgf` option in the `config_file` to 
@@ -405,14 +411,25 @@ to get your own warming stripes.
 ```bash
 esmvaltool-workflow run recipe_warming_stripes.yml
 ```
-Find the plots in the plot directory of the output run: 
-*/scratch/nf33/$USER/esmvaltool_outputs/$recipe_/plots*
 
-Note: for the purpose of simplicity in this episode, we have not added logging
-or provenance tracking in the diagnostic script. Once you start to develop your
-own diagnostic scripts and want to add them to the ESMValTool repositories, this
-will be required. Writing your own diagnostic script is discussed in a 
-[later episode]({{ page.root }}{% link _episodes/05-writingdiagnostics.md %}).
+Find the plots in the plot directory of the output run eg. 
+```
+/scratch/nf33/fc6164/esmvaltool_outputs/recipe_warming_latest/plots
+└── diagnostic_warming_stripes
+    └── warming_stripes_script
+        └── CMIP6_ACCESS-ESM1-5_Amon_historical_r1i1p1f1_global_temperature_anomalies_gn_1850-2014.png
+```
+
+![First output](../fig/write-recipe.png)
+
+> ## Note
+> For the purpose of simplicity in this episode, we have not added logging
+> or provenance tracking in the diagnostic script. Once you start to develop your
+> own diagnostic scripts and want to add them to the ESMValTool repositories, this
+> will be required. 
+> Writing your own diagnostic script is discussed in a 
+> [later episode]({{ page.root }}{% link _episodes/05-writingdiagnostics.md %}).
+{: .callout}
 
 ## Bonus exercises
 
@@ -467,7 +484,7 @@ An example of the modified recipes are also in this folder
 > > +        preprocessor: aus_anomalies
 > >      scripts:
 > >        warming_stripes_script:
-> >          script: ~/esmvaltool_tutorial/warming_stripes.py
+> >          script: /scratch/nf33/$USER/CMIP7-Hackathon/exercises/WritingYourOwnRecipe/warming_stripes.py
 > > ```
 > >
 > {: .solution}
@@ -513,7 +530,7 @@ An example of the modified recipes are also in this folder
 > > +        end_year: 1999
 > >      scripts:
 > >        warming_stripes_script:
-> >          script: ~/esmvaltool_tutorial/warming_stripes.py
+> >          script: /scratch/nf33/$USER/CMIP7-Hackathon/exercises/WritingYourOwnRecipe/warming_stripes.py
 > > ```
 > >
 > {: .solution}
@@ -609,7 +626,7 @@ An example of the modified recipes are also in this folder
 > > +          - {dataset: ACCESS1-3, project: CMIP5, mip: Amon, exp: historical, ensemble: r1i1p1}
 > >      scripts:
 > >        warming_stripes_script:
-> >          script: ~/esmvaltool_tutorial/warming_stripes.py
+> >          script: /scratch/nf33/$USER/CMIP7-Hackathon/exercises/WritingYourOwnRecipe/warming_stripes.py
 > > ```
 > >
 > {: .solution}
