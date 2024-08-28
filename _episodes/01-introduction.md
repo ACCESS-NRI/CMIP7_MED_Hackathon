@@ -118,7 +118,7 @@ The following example illustrate how to leverage ESMValCore, the engine powering
 >
 {: .solution}
 
-> ## Exercices
+> ## Exercises
 > ESMValCore has a growing collection of preprocessors, have a look at the documentation and see what is available. 
 > - Open an ARE session and run the above example. 
 > - See if you can load other datasets

@@ -30,7 +30,7 @@ Refer to [VS Code setup]({{ page.root }}{% link _extras/01-vscodesetup.md %}).
 In a terminal with an SSH connection into Gadi, load the module to use ESMValTool on Gadi.
 ```bash
 module use /g/data/xp65/public/modules
-module load esmvaltool
+module load esmvaltool-workflow
 ```
 
 ## Running an existing recipe
@@ -630,13 +630,13 @@ ESMValTool.
 > >      convert_units:
 > >        units: degrees_C
 > >  
-> > -  annual_mean_sydney:
-> > -    extract_point:
-> > -      latitude: -34
-> > -      longitude: 151
-> > +  annual_mean_amsterdam:
-> > +    extract_location:
-> > +      location: Amsterdam
+> > -  annual_mean_amsterdam:
+> > -    extract_location:
+> > -      location: Amsterdam
+> > +  annual_mean_sydney:
+> > +    extract_point:
+> > +      latitude: -34
+> > +      longitude: 151
 > >        scheme: linear
 > >      annual_statistics:
 > >        operator: mean
@@ -646,15 +646,15 @@ ESMValTool.
 > >      realms:
 > >        - atmos
 > >      variables:
-> > -      tas_sydney:
-> > +      tas_amsterdam:
+> > -      tas_amsterdam:
+> > +      tas_sydney:
 > >          short_name: tas
 > >          mip: Amon
-> > -        preprocessor: annual_mean_sydney
-> > +        preprocessor: annual_mean_amsterdam
+> > -        preprocessor: annual_mean_amsterdam
+> > +        preprocessor: annual_mean_sydney
 > >          timerange: 1850/2000
-> > -        caption: Annual mean {long_name} in Sydney according to {dataset}.
-> > +        caption: Annual mean {long_name} in Amsterdam according to {dataset}.
+> > -        caption: Annual mean {long_name} in Amsterdam according to {dataset}.
+> > +        caption: Annual mean {long_name} in Sydney according to {dataset}.
 > >        tas_global:
 > >          short_name: tas
 > >          mip: Amon
@@ -667,12 +667,16 @@ ESMValTool.
 Now that the recipe runs we can look at the output. We recommend using VS Code with the "Live Preview"
 extension to view the html that is generated. When you open the html file, you will see the preview button
 appear in the top right.
-![LivePreviewExtension](../fig/htmlpreview.png)
+> ## Preview
+> ![LivePreviewExtension](../fig/htmlpreview.png)
+{: .solution}
 
 You can see the output folder in explorer with the index.html file with a successful run. When you click on 
 the preview button, the preview will appear to the right. You can also drag this across as a tab to use
 more of your screen to view. 
-![htmlPreview](../fig/htmlpage.png)
-![htmloutput](../fig/outputhtml.png)
+> ## HTML output
+> ![htmlPreview](../fig/htmlpage.png)
+> ![htmloutput](../fig/outputhtml.png)
+{: .solution}
 
 {% include links.md %}

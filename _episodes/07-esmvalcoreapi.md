@@ -8,12 +8,13 @@ questions:
 - "How to find data for ESMValTool in a Jupyter Notebook?"
 - "How to use preprocessor functions?"
 objectives:
-- "Introduce and use the Dataset object"
-- "Import and use included preprocessor functions"
+- "Use the Dataset object"
+- "Import and use preprocessor functions"
 - "View and check the data"
 keypoints:
 - "API can be used as a helper to develop recipes"
 - "Preprocessors can be used in a Jupyter Notebook to check the output"
+- "Use `datasets_to_recipe` helper to start making recipes"
 ---
 
 In this episode we will introduce the ESMValCore API in a jupyter notebook. This is reformatted from material from
@@ -25,8 +26,9 @@ by Peter Kalverla. There's also material from the [example notebooks][docs-noteb
 ## Start ARE session
 Log in to [ARE][are]{:target="_blank"} with your NCI account to start a JupyterLab session.
 Refer to this [ARE setup guide]({{ page.root }}{% link _extras/02-aresetup.md %}) for more details.
-Open the folder to your hackathon folder in `nf33` where you can create a new notebook or use the 
-`example_easyipcc.ipynb` notebook.
+Navigate to your hackathon folder `/scratch/nf33/$USER/CMIP7-Hackathon/exercises/AdvancedJupyterNotebook` 
+where you can find the `example_easyipcc.ipynb` notebook for this exercise. 
+Or you can create a new notebook in your workspace.
 
 ## Find Datasets with facets
 We have seen from running available recipes that ESMValTool is able to find data from facets that were given in
@@ -235,6 +237,15 @@ See the [documentation][recipe-section-preprocessors]{:target="_blank"} to read 
 > {: .solution}
 {: .challenge}
 
+## Plot data
+[Iris](https://scitools-iris.readthedocs.io/en/latest/index.html){:target="_blank"} 
+has wrappers for [matplotlib](https://matplotlib.org/){:target="_blank"} to [plot the 
+processed cubes](https://scitools-iris.readthedocs.io/en/latest/userguide/plotting_a_cube.html#iris-cube-plotting){:target="_blank"}. 
+This is useful in a notebook to help develop your recipe with the esmvalcore preprocessors.
+```python
+from iris import quickplot
+quickplot.plot(cube)
+```
 ## Custom code
 We have so far solely used ESMValCore, however, you can use your own custom code and
 being in a Notebook means you can try straight away. Now, continue with other libraries 
@@ -245,6 +256,7 @@ da = xr.DataArray.from_iris(cube)
 da.plot()
 print(da)
 ```
+
 ## Build workflow and diagnostic
 > ## Exercise - Easy IPCC plot for sea surface temperature
 > Let's pull some of these bits together to build a diagnostic.
@@ -373,24 +385,31 @@ print(da)
 > {: .solution}
 {: .callout}
 
-> ## Exercise 2 Sea-ice area
-> Using observation data and 2 model datasets to show trends in sea-ice.
-> Solution notebook - `example_seaicearea.ipynb`
+> ## Run through Minimal example notebook
+> This was shown in the [introduction episode]({{ page.root }}{% link _episodes/01-introduction.md %}).
+> Find the example in your cloned hackathon folder: 
+> `CMIP7-Hackathon\exercises\IntroductionESMValTool\Minimal_example.ipynb`
+{: .challenge}
+
+> ## Exercise: Sea-ice area
+> Use observation data and 2 model datasets to show trends in sea-ice.
+> 
 >
-> - Using variable `siconc` which is a fraction percen(t 0-100)
+> - Using variable `siconc` which is a fraction percent(0-100)
 > - Using datasets: 
-> `dataset:'ACCESS-ESM1-5', exp:'historical', ensemble:'r1i1p1f1', timerange:'1960/2010'`
-> `dataset :'ACCESS-OM2', exp:'omip2', ensemble='r1i1p1f1', timerange:'0306/0366'`
+>   - `dataset:'ACCESS-ESM1-5', exp:'historical', ensemble:'r1i1p1f1', timerange:'1960/2010'`
+>   - `dataset :'ACCESS-OM2', exp:'omip2', ensemble='r1i1p1f1', timerange:'0306/0366'`
 > - Using observations:
-> `dataset:'NSIDC-G02202-sh', tier:'3', version:'4', timerange:'1979/2018'`
+>   - `dataset:'NSIDC-G02202-sh', tier:'3', version:'4', timerange:'1979/2018'`
 > 
 > 1. Extract Southern hemisphere
 > 2. Use only valid values (15 -100 %)
 > 3. Sum sea ice area which will be the fraction multiplied by cell area and summed
 > 4. Plot yearly minimum and maximum value
 > 
-> > ## Solution
-> > Define datasets:
+> Solution notebook - `CMIP7-Hackathon/exercises/AdvancedJupyterNotebook/example_seaicearea.ipynb`
+> 
+> > ## 1. Define datasets:
 > > 
 > > ```python
 > > from esmvalcore.dataset import Dataset
@@ -413,8 +432,31 @@ print(da)
 > > 
 > > model_om = model.copy(**om_facets) 
 > > ```
+> {: .solution}
+> > ## Tip: Check dataset files
+> > The observational dataset is a Tier 3 so with some restrictions.
 > > 
-> > Use esmvalcore API preprocessors on the datasets and plot results
+> > ```python
+> > for ds in [model, model_om, obs]:
+> >     print(ds['dataset'],' : ' ,ds.files)
+> >     print(ds.supplementaries[0].files)
+> > ```
+> > This dataset does have a downloader and formatter with ESMValTool, these data functions mentioned in 
+> > the [supported data lesson]({{ page.root }}{% link _episodes/03-supported-data.md %}):
+> > ```bash
+> > esmvaltool data download --config_file <path to config-user.yml>  NSIDC-G02202-sh
+> > esmvaltool data format --config_file <path to config-user.yml>  NSIDC-G02202-sh
+> > ```
+> > For this plot we can drop it for now. But you can also try to add another dataset. eg:
+> > ```python
+> > obs_other = Dataset(
+> >     short_name='siconc', mip='*', project='OBS', type='*',
+> >     dataset='*', tier='*', timerange='1979/2018'
+> > )
+> > obs_other.files
+> > ```
+> {: .solution}
+> > ## 2. Use esmvalcore API preprocessors on the datasets and plot results
 > > 
 > > ```python
 > > import iris
@@ -427,7 +469,8 @@ print(da)
 > >             annual_statistics
 > > )
 > > # om - at index 1 to offset years
-> > load_data = [model, model_om, obs] 
+> > # drop observations it cannot find
+> > load_data = [model, model_om] #, obs] 
 > > 
 > > # function to use for both min and max ['max','min'] 
 > > 
