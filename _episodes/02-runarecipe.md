@@ -30,7 +30,7 @@ Refer to [VS Code setup]({{ page.root }}{% link _extras/01-vscodesetup.md %}).
 In a terminal with an SSH connection into Gadi, load the module to use ESMValTool on Gadi.
 ```bash
 module use /g/data/xp65/public/modules
-module load esmvaltool
+module load esmvaltool-workflow
 ```
 
 ## Running an existing recipe

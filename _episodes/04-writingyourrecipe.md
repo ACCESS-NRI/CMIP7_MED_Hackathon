@@ -119,9 +119,9 @@ This is the first place to look for help if you get stuck.
 > > ```bash
 > > switchproj nf33
 > > module use /g/data/xp65/public/modules
-> > module load esmvaltool
+> > module load esmvaltool-workflow
 > > 
-> > esmvaltool-workflow run --output_dir=/scratch/nf33/$USER/esmvaltool_outputs <path>/recipe_warming_stripes.yml
+> > esmvaltool-workflow run --output_dir=/scratch/nf33/$USER/esmvaltool_outputs <dir_path>/recipe_warming_stripes.yml
 > > ```
 > {: .solution}
 {: .challenge}
@@ -296,14 +296,9 @@ in ESMValTool.
 
 > ## Pro-tip: Automatically populating a recipe with all available datasets
 >
-> You can select all available models for processing using 
-> `glob` patterns or wildcards.  Seen in [Running your first recipe]({{ page.root }}{% link _episodes/03-supported-data.md %})
-> An example `datasets` section that uses all 
-> available CMIP6 models and ensemble members for the `historical` experiment
-> is available [here] [include-all-datasets]{:target="_blank"}.
-> Note that you will have to set the `search_esgf` option in the `config_file` to 
-> `always` so that you can download data from ESGF nodes as needed. On Gadi, this will need
-> a queue with internet access (copyq).
+> You can select all available models for processing using `glob` patterns or wildcards. 
+> Seen in [Supported data on Gadi]({{ page.root }}{% link _episodes/03-supported-data.md %}) exercises 
+> on finding data.
 {: .callout}
 
 

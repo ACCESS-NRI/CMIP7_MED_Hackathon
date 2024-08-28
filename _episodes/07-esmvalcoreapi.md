@@ -408,8 +408,8 @@ print(da)
 > 4. Plot yearly minimum and maximum value
 > 
 > Solution notebook - `CMIP7-Hackathon/exercises/AdvancedJupyterNotebook/example_seaicearea.ipynb`
-> > ## Solution
-> > Define datasets:
+> 
+> > ## 1. Define datasets:
 > > 
 > > ```python
 > > from esmvalcore.dataset import Dataset
@@ -432,8 +432,31 @@ print(da)
 > > 
 > > model_om = model.copy(**om_facets) 
 > > ```
+> {: .solution}
+> > ## Tip: Check dataset files
+> > The observational dataset is a Tier 3 so with some restrictions.
 > > 
-> > Use esmvalcore API preprocessors on the datasets and plot results
+> > ```python
+> > for ds in [model, model_om, obs]:
+> >     print(ds['dataset'],' : ' ,ds.files)
+> >     print(ds.supplementaries[0].files)
+> > ```
+> > This dataset does have a downloader and formatter with ESMValTool, these data functions mentioned in 
+> > the [supported data lesson]({{ page.root }}{% link _episodes/03-supported-data.md %}):
+> > ```bash
+> > esmvaltool data download --config_file <path to config-user.yml>  NSIDC-G02202-sh
+> > esmvaltool data format --config_file <path to config-user.yml>  NSIDC-G02202-sh
+> > ```
+> > For this plot we can drop it for now. But you can also try to add another dataset. eg:
+> > ```python
+> > obs_other = Dataset(
+> >     short_name='siconc', mip='*', project='OBS', type='*',
+> >     dataset='*', tier='*', timerange='1979/2018'
+> > )
+> > obs_other.files
+> > ```
+> {: .solution}
+> > ## 2. Use esmvalcore API preprocessors on the datasets and plot results
 > > 
 > > ```python
 > > import iris
@@ -446,7 +469,8 @@ print(da)
 > >             annual_statistics
 > > )
 > > # om - at index 1 to offset years
-> > load_data = [model, model_om, obs] 
+> > # drop observations it cannot find
+> > load_data = [model, model_om] #, obs] 
 > > 
 > > # function to use for both min and max ['max','min'] 
 > > 

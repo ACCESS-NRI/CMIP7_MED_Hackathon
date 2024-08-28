@@ -42,7 +42,7 @@ Let's get started!
 
 A clone of the ESMValTool repository should be available in your user folder in the `nf33`
 `scratch` folder (`/scratch/nf33/$USER/ESMValTool`). If not, please make sure to run the
-`check_hackathon` command after loading the `esmvaltool` module, check for any errors.
+`check_hackathon` command after loading the `esmvaltool-workflow` module, check for any errors.
 
 The folder ``ESMValTool`` contains the source code of the tool. We can find the
 recipe ``recipe_python.yml`` and the python script ``diagnostic.py`` in these
@@ -212,7 +212,7 @@ There are four main sections in the script:
 > ```
 > esmvaltool recipes get examples/recipe_python.yml
 > ```
-> Use the file you edited that works from the completion of the lesson.
+> Use the edited file from the completion of the lesson.
 >
 > Copy the file `diagnostic.py` to your working folder
 > to keep the ones in the repo as templates unaltered while you can more easily 
@@ -254,10 +254,11 @@ The ESMValTool documentation page provides an overview of what is in this file, 
 > Load the module in Gadi if you haven't already. We know how to change the configuration 
 > settings before running a recipe. First we set the option ``remove_preproc_dir`` 
 > to ``false`` in the configuration file, then run the recipe ``recipe_python.yml``:
+> (Or look at the output folder from your previous working run.)
 >
 > ```bash
 > module use /g/data/xp65/public/modules
-> module load esmvaltool
+> module load esmvaltool-workflow
 >
 > esmvaltool-workflow run <your_working_folder>/recipe_python.yml
 > ```
@@ -321,7 +322,7 @@ available functions and their description can be found in
 >>          'ensemble': 'r1i1p1',
 >>          'exp': 'historical',
 >>          'filename': '~/recipe_python_20230628_124639/preproc/map/tas/
-                CMIP5_bcc-csm1-1_Amon_historical_r1i1p1_tas_2000-P1M.nc',
+>>                CMIP5_bcc-csm1-1_Amon_historical_r1i1p1_tas_2000-P1M.nc',
 >>          'frequency': 'mon',
 >>          'institute': ['BCC'],
 >>          'long_name': 'Near-Surface Air Temperature',
@@ -348,7 +349,7 @@ available functions and their description can be found in
 >>          'ensemble': 'r1i1p1f1',
 >>          'exp': 'historical',
 >>          'filename': '~/recipe_python_20230628_124639/preproc/map/tas/
-                CMIP6_BCC-ESM1_Amon_historical_r1i1p1f1_tas_gn_2000-P1M.nc',
+>>                CMIP6_BCC-ESM1_Amon_historical_r1i1p1f1_tas_gn_2000-P1M.nc',
 >>          'frequency': 'mon',
 >>          'grid': 'gn',
 >>          'institute': ['BCC'],
@@ -546,8 +547,6 @@ configuration settings). Again, you may choose your own method of saving the out
 ```
 You will see that they are imported from `esmvaltool.diag_scripts.shared` and 
 take arguments such as `cfg` so that they can be saved in the appropriate output location.
-Using these helper functions will allow the `index.html` output to generated as it requires 
-certain references that are parsed though with the `provenance_record`.
 
 ### Recording the provenance
 

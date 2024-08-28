@@ -1,6 +1,6 @@
 ---
 title: "Use a Jupyter Notebook to run a recipe"
-teaching: 20
+teaching: 10
 exercises: 20
 compatibility: ESMValTool v2.11.0
 
@@ -27,7 +27,7 @@ and the [documentation][experimental-api]{:target="_blank"} which is a good plac
 Log in to [ARE][are]{:target="_blank"} with your NCI account to start a JupyterLab session.
 Refer to this [ARE setup guide]({{ page.root }}{% link _extras/02-aresetup.md %}) for more details.
 Open the folder to your hackathon folder in `nf33` where you can create a new notebook or use the 
-`Intro_to_ESMValTool.ipynb` notebook in `CMIP7-Hackathon\exercises\Exercise4_files`
+`Intro_to_ESMValTool.ipynb` notebook in `CMIP7-Hackathon\exercises\Exercise4_files`.
 
 Let's start by importing the tool and some other tools we can use later. Note that we are importing from `esmvalcore` and calling
 it `esmvaltool`.
@@ -42,13 +42,15 @@ import iris.quickplot
 
 ## Finding a recipe
 
-There is a *utils* submodule we can use to find and get recipes. Call the `get_all_recipes()` function to get a
+There is a [*utils*](https://docs.esmvaltool.org/projects/ESMValCore/en/latest/api/esmvalcore.experimental.utils.html) 
+submodule we can use to find and get recipes. Call the `get_all_recipes()` function to get a
 list of all available recipes from which you can use the `find()` method to return any matches. If you already know the
 recipe you want you can use the `get_recipe()` function.
 >## In Jupyter Notebook
 > ```python
 > all_recipes = esmvaltool.get_all_recipes()
-> all_recipes
+> # all_recipes
+> all_recipes.find('python')
 > ```
 {: .solution}
 
@@ -76,7 +78,8 @@ recipe you want you can use the `get_recipe()` function.
 {: .challenge}
 
 > ## Pro tip: remember the command line?
-> This is another way of doing a similar thing from the command line:
+> This is similar to this function in the command line whihc copies the recipe to your
+> directory.
 > ```bash 
 > >esmvaltool recipes get $recipeFile
 > ```
@@ -90,14 +93,11 @@ The tool can automatically download the climate data files required to run a rec
 You can check your download directory and output directory where your recipe runs will be saved.
 This `CFG` object is from the `config` module in the ESMValCore API, for more details see [here][api-config].
 
-> Check and ensure download directory exists. This would be required when downloading missing 
-> datasets from ESGF nodes.
+> Call the `CFG` object and inspect the values.
 > > ## Solution
 > > ```python
 > > # call CFG object like this
 > > esmvaltool.CFG
-> > # then can access settings like a dictionary
-> > esmvaltool.CFG['download_dir'].mkdir(exist_ok=True)
 > > ```
 > {: .solution}
 > Check output directory and change
@@ -113,16 +113,17 @@ This `CFG` object is from the `config` module in the ESMValCore API, for more de
 
 
 > ## Pro tip: Missing config file or load different config
-> Rememeber that this command line copies and creates the default user configuration file
-> in your home `.esmvaltool` folder:
-> ```bash 
-> esmvaltool config get-config-user
-> ```
-> 
+> > ## Get configuration file
+> > Rememeber that this command line copies and creates the default user configuration file
+> > in your home `.esmvaltool` folder:
+> > ```bash 
+> > esmvaltool config get-config-user
+> > ```
+> {: .solution}
 > > ## Load a different configuration file to use
 > > ```python
 > > # an example path to other configuration file
-> > CFG.load_from_file('/home/189/fc6164/esmValTool/config-fc-copy.yml')
+> > esmvaltool.CFG.load_from_file('/home/189/fc6164/esmValTool/config-fc-copy.yml')
 > > ```
 > {: .solution}
 {: .callout}
