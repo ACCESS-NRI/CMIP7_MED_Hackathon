@@ -386,9 +386,15 @@ print(da)
 {: .callout}
 
 > ## Run through Minimal example notebook
-> This was shown in the [introduction episode]({{ page.root }}{% link _episodes/01-introduction.md %}).
+> Partly shown in the [introduction episode]({{ page.root }}{% link _episodes/01-introduction.md %}).
 > Find the example in your cloned hackathon folder: 
 > `CMIP7-Hackathon\exercises\IntroductionESMValTool\Minimal_example.ipynb`
+> This notebook includes:
+> - Plot 2D field on a map
+> - Hovmoller Diagram
+> - Wind speed over Australia
+> - Air Potential Temperature (3D data) Transect
+> - Australian mean temperature timeseries
 {: .challenge}
 
 > ## Exercise: Sea-ice area
@@ -433,21 +439,22 @@ print(da)
 > > model_om = model.copy(**om_facets) 
 > > ```
 > {: .solution}
-> > ## Tip: Check dataset files
-> > The observational dataset is a Tier 3 so with some restrictions.
+> > ## Tip: Check dataset files can be found
+> > The observational dataset used is a Tier 3, so with some licensing restrictions. It is not directly
+> > accesible here. Check files can be found for all the datasets:
 > > 
 > > ```python
 > > for ds in [model, model_om, obs]:
 > >     print(ds['dataset'],' : ' ,ds.files)
 > >     print(ds.supplementaries[0].files)
 > > ```
-> > This dataset does have a downloader and formatter with ESMValTool, these data functions mentioned in 
+> > This observation dataset does have a downloader and formatter with ESMValTool, you can use these data functions mentioned in 
 > > the [supported data lesson]({{ page.root }}{% link _episodes/03-supported-data.md %}):
 > > ```bash
 > > esmvaltool data download --config_file <path to config-user.yml>  NSIDC-G02202-sh
 > > esmvaltool data format --config_file <path to config-user.yml>  NSIDC-G02202-sh
 > > ```
-> > For this plot we can drop it for now. But you can also try to add another dataset. eg:
+> > For this plot we can drop it for now. But you can also try to find and add another dataset. eg:
 > > ```python
 > > obs_other = Dataset(
 > >     short_name='siconc', mip='*', project='OBS', type='*',
@@ -469,7 +476,7 @@ print(da)
 > >             annual_statistics
 > > )
 > > # om - at index 1 to offset years
-> > # drop observations it cannot find
+> > # drop observations that cannot be found
 > > load_data = [model, model_om] #, obs] 
 > > 
 > > # function to use for both min and max ['max','min'] 

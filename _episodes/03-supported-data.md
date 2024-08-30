@@ -49,7 +49,7 @@ Broadly, the datasets available which can be easily found and read in ESMValTool
 > > - [CMIP5 replicas](https://geonetwork.nci.org.au/geonetwork/srv/eng/catalog.search#/metadata/f9489_5106_5649_5038): **al33** and
 > > [Australian](https://geonetwork.nci.org.au/geonetwork/srv/eng/catalog.search#/metadata/f1451_9473_6216_4637): **rr3**
 > > 
-> > There is also the NCI project **zv30** for *CMIP7 collaborative development and evaluation* currently with more CMIP6 piControl data.
+> > There is also the NCI project **zv30** for *CMIP7 collaborative development and evaluation* which will be covered later in this episode.
 > {: .solution}
 {: .challenge}
 
@@ -479,6 +479,23 @@ This collection is part of the `zv30` project on NCI, managed by ACCESS-NRI. Sim
 
 If you have not done so already, please join the [zv30 project](https://my.nci.org.au/mancini/project/zv30)
 
-
+> ## ZV30 collection in ESMValTool
+> ESMValTool-workflow on Gadi has been configured to be able to use this collection specifically and differentiate
+> from the rest of the CMIP6 collections.
+> 
+> You can do this by specifying the project facet as `ZV30`. 
+> 
+> >## In recipe
+> >```yaml
+> >datasets:
+> >  - project: ZV30
+> >    exp: piControl
+> >    dataset: '*'
+> >    institute: '*'
+> >    ensemble: '*'
+> >    grid: '*'
+> >```
+> {: .solution}
+{: .challenge}
 
 {% include links.md %}
