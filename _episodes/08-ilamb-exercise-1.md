@@ -716,7 +716,7 @@ The following default PBS file, let's call it `ilamb_test.job`, can help you to 
  #PBS -l ncpus=14
  #PBS -l mem=63GB           
  #PBS -l jobfs=10GB        
- #PBS -l storage=gdata/ct11+gdata/hh5+gdata/xp65+gdata/fs38+gdata/oi10+gdata/zv30
+ #PBS -l storage=gdata/ct11+gdata/hh5+gdata/xp65+gdata/fs38+gdata/oi10+gdata/zv30+scratch/nf33
  
  # ILAMB is provided through projects xp65. We will use the latter here
  module use /g/data/xp65/public/modules
